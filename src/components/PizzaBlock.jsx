@@ -1,10 +1,10 @@
-import { useState } from "react"
+import React from "react"
 
 export function PizzaBlock({ id, imageUrl, title, types, sizes, price, category, rating }) {
   const pizzaTypes = ['thin', 'traditional'];
-  const [activePizzaType, setActivePizzaType] = useState(0);
-  const [activePizzaSize, setActivePizzaSize] = useState(0);
-  const [pizzaCount, setPizzaCount] = useState(0);
+  const [activePizzaType, setActivePizzaType] = React.useState(0);
+  const [activePizzaSize, setActivePizzaSize] = React.useState(0);
+  const [pizzaCount, setPizzaCount] = React.useState(0);
 
   return (
     <div className="pizza-block">

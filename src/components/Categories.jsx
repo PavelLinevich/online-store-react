@@ -1,9 +1,9 @@
-import { useState } from "react"
+import React from "react"
 
 export function Categories() {
   const categories = ['All', 'Meat', 'Vegetarian', 'Grill', 'Spicy', 'Close']
 
-  const [activeCategory, setActiveCategory] = useState(0);
+  const [activeCategory, setActiveCategory] = React.useState(0);
 
   const onClickCategory = (index) => {
     setActiveCategory(index);

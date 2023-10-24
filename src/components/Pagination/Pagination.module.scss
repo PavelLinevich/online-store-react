@@ -1,0 +1,35 @@
+.paginate {
+  ul {
+    display: flex;
+    justify-content: center;
+  }
+}
+
+.root {
+  li {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 30px;
+    height: 30px;
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid #666;
+    border-radius: 50%;
+    cursor: pointer;
+    opacity: 0.6;
+
+    &:hover {
+      opacity: 0.8;
+    }
+
+    &:active {
+      opacity: 1;
+    }
+  }
+
+  :global {
+    .previous {
+    }
+  }
+}

@@ -4,19 +4,24 @@ import { Categories } from '../components/Categories';
 import { PizzaBlock } from '../components/PizzaBlock/PizzaBlock';
 import { Skeleton } from "../components/PizzaBlock/Skeleton";
 import { Sort } from '../components/Sort';
+import { Pagination } from '../components/Pagination/Pagination';
 
-export const Home = () => {
+export const Home = ({ searchValue }) => {
 
   const [pizzas, setPizzas] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
   const [activeCategory, setActiveCategory] = React.useState(0);
+  const [currentPage, setCurrentPage] = React.useState(1);
   const list = ['rating', 'price', 'title'];
   const [selected, setSelected] = React.useState(list[0]);
 
   React.useEffect(() => {
     setIsLoading(true);
-    fetch(`https://65367de8bb226bb85dd23593.mockapi.io/pizzas?${activeCategory > 0 ? `category = ${activeCategory}` : ''
-      }&sortBy=${selected}&order=asc`
+
+    const category = activeCategory > 0 ? `category=${activeCategory}` : '';
+    const search = searchValue ? `search=${searchValue}` : '';
+
+    fetch(`https://65367de8bb226bb85dd23593.mockapi.io/pizzas?page=${currentPage}&limit=4&${category}&sortBy=${selected}&${search}`
     )
       .then((response) => response.json())
       .then((arr) => {
@@ -24,7 +29,8 @@ export const Home = () => {
         setIsLoading(false);
       });
     window.scrollTo(0, 0);
-  }, [activeCategory, selected])
+  }, [activeCategory, selected, searchValue, currentPage])
+
 
   return (
     <div className="container">
@@ -40,10 +46,11 @@ export const Home = () => {
             : pizzas.map((element) => (
               <PizzaBlock
                 key={element.id}
-                {...element} />
-            ))
+                {...element} />)
+            )
         }
       </div>
+      <Pagination currentPage={currentPage} setCurrentPage={(number) => setCurrentPage(number)} />
     </div>
   )
 }

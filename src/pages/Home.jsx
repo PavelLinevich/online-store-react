@@ -14,7 +14,7 @@ import { SearchContext } from '../App';
 export const Home = () => {
   const dispatch = useDispatch();
 
-  const { activeCategory, selected } = useSelector((state) => state.filter);
+  const { activeCategory, selected, currentPage } = useSelector((state) => state.filter);
 
   const list = ['rating', 'price', 'title'];
   const selectedList = list[selected];
@@ -22,7 +22,6 @@ export const Home = () => {
   const { searchValue } = React.useContext(SearchContext);
   const [pizzas, setPizzas] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
-  const [currentPage, setCurrentPage] = React.useState(1);
 
   const onChangeCategory = (index) => {
     dispatch(setActiveCategory(index))
@@ -61,7 +60,7 @@ export const Home = () => {
             )
         }
       </div>
-      <Pagination currentPage={currentPage} setCurrentPage={(number) => setCurrentPage(number)} />
+      <Pagination />
     </div>
   )
 }

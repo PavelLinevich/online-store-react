@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { setActiveCategory } from '../redux/slices/filterSlice'
@@ -33,11 +34,9 @@ export const Home = () => {
     const category = activeCategory > 0 ? `category=${activeCategory}` : '';
     const search = searchValue ? `search=${searchValue}` : '';
 
-    fetch(`https://65367de8bb226bb85dd23593.mockapi.io/pizzas?page=${currentPage}&limit=4&${category}&sortBy=${selectedList}&${search}`
-    )
-      .then((response) => response.json())
-      .then((arr) => {
-        setPizzas(arr);
+    axios.get(`https://65367de8bb226bb85dd23593.mockapi.io/pizzas?page=${currentPage}&limit=4&${category}&sortBy=${selectedList}&${search}`)
+      .then((response) => {
+        setPizzas(response.data);
         setIsLoading(false);
       });
     window.scrollTo(0, 0);
@@ -54,7 +53,7 @@ export const Home = () => {
       <div className="content__items">
         {
           isLoading
-            ? [new Array(6)].map((_, index) => <Skeleton key={index} />)
+            ? [new Array(4)].map((_, index) => <Skeleton key={index} />)
             : pizzas.map((element) => (
               <PizzaBlock
                 key={element.id}

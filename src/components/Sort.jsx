@@ -1,11 +1,15 @@
-import React from "react"
+import React from "react";
+import { useSelector, useDispatch } from 'react-redux';
+import { setSelected } from '../redux/slices/filterSlice'
 
-export function Sort({ list, selected, setSelected }) {
 
+export function Sort({list}) {
+  const dispatch = useDispatch();
+  const selected = useSelector((state) => state.filter.selected);
   const [open, setOpen] = React.useState(false);
 
   const onClickSelect = (index) => {
-    setSelected(list[index]);
+    dispatch(setSelected(index));
     setOpen(false);
   }
 
@@ -25,7 +29,7 @@ export function Sort({ list, selected, setSelected }) {
           />
         </svg>
         <b>Sort by:</b>
-        <span onClick={() => setOpen(!open)}>{selected}</span>
+        <span onClick={() => setOpen(!open)}>{list[selected]}</span>
       </div>
       {open && (
         <div className="sort__popup">
@@ -34,7 +38,7 @@ export function Sort({ list, selected, setSelected }) {
               <li
                 key={index}
                 onClick={() => onClickSelect(index)}
-                className={selected === list[index] ? "active" : ""}
+                className={selected === index ? "active" : ""}
               >
                 {element}
               </li>

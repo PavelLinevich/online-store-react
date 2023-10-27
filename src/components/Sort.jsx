@@ -1,9 +1,10 @@
 import React from "react";
 import { useSelector, useDispatch } from 'react-redux';
-import { setSelected } from '../redux/slices/filterSlice'
+import { setSelected } from '../redux/slices/filterSlice';
+import { list } from '../pages/Home';
 
 
-export function Sort({list}) {
+export function Sort() {
   const dispatch = useDispatch();
   const selected = useSelector((state) => state.filter.selected);
   const [open, setOpen] = React.useState(false);

@@ -2,8 +2,9 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   activeCategory: 0,
-  selected: 0,
   currentPage: 1,
+  selected: 0,
+  selectedList: '',
 }
 
 export const filterSlice = createSlice({
@@ -19,8 +20,13 @@ export const filterSlice = createSlice({
     setCurrentPage(state, action) {
       state.currentPage = action.payload;
     },
+    setFilters(state, action) {
+      state.selectedList = action.payload.selectedList;
+      state.currentPage = Number(action.payload.currentPage);
+      state.activeCategory = Number(action.payload.activeCategory);
+    },
   },
 })
-export const { setActiveCategory, setSelected, setCurrentPage } = filterSlice.actions;
+export const { setActiveCategory, setSelected, setCurrentPage, setFilters } = filterSlice.actions;
 
 export default filterSlice.reducer;

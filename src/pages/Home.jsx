@@ -1,8 +1,10 @@
 import React from 'react';
 import axios from 'axios';
+import qs from 'qs';
 import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom'
 
-import { setActiveCategory } from '../redux/slices/filterSlice'
+import { setActiveCategory, setFilters } from '../redux/slices/filterSlice'
 
 import { Categories } from '../components/Categories';
 import { PizzaBlock } from '../components/PizzaBlock/PizzaBlock';
@@ -11,12 +13,14 @@ import { Sort } from '../components/Sort';
 import { Pagination } from '../components/Pagination/Pagination';
 import { SearchContext } from '../App';
 
+export const list = ['rating', 'price', 'title'];
 export const Home = () => {
   const dispatch = useDispatch();
-
+  const navigate = useNavigate();
+  const isSearch = React.useRef(false);
+  const isMounted = React.useRef(false);
   const { activeCategory, selected, currentPage } = useSelector((state) => state.filter);
 
-  const list = ['rating', 'price', 'title'];
   const selectedList = list[selected];
 
   const { searchValue } = React.useContext(SearchContext);
@@ -27,26 +31,55 @@ export const Home = () => {
     dispatch(setActiveCategory(index))
   }
 
-  React.useEffect(() => {
+  const fetchPizzas = () => {
     setIsLoading(true);
-
     const category = activeCategory > 0 ? `category=${activeCategory}` : '';
     const search = searchValue ? `search=${searchValue}` : '';
-
     axios.get(`https://65367de8bb226bb85dd23593.mockapi.io/pizzas?page=${currentPage}&limit=4&${category}&sortBy=${selectedList}&${search}`)
       .then((response) => {
         setPizzas(response.data);
         setIsLoading(false);
       });
+  }
+
+  React.useEffect(() => {
+    if (window.location.search) {
+      const params = qs.parse(window.location.search.substring(1));
+      // console.log(params);
+      dispatch(
+        setFilters({
+          ...params,
+        })
+      )
+      isSearch.current = true;
+    }
+  }, [dispatch])
+
+  React.useEffect(() => {
     window.scrollTo(0, 0);
+    if (!isSearch.current) {
+      fetchPizzas();
+    }
+    isSearch.current = false;
   }, [activeCategory, currentPage, searchValue, selectedList])
 
+  React.useEffect(() => {
+    if (isMounted.current) {
+      const queryString = qs.stringify({
+        selectedList,
+        currentPage,
+        activeCategory,
+      });
+      navigate(`?${queryString}`)
+    }
+    isMounted.current = true;
+  }, [activeCategory, currentPage, selectedList, navigate])
 
   return (
     <div className="container">
       <div className="content__top">
         <Categories activeCategory={activeCategory} setActiveCategory={(index) => onChangeCategory(index)} />
-        <Sort list={list} />
+        <Sort />
       </div>
       <h2 className="content__title">All pizzas</h2>
       <div className="content__items">

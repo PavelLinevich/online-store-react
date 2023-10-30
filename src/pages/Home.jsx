@@ -1,5 +1,4 @@
 import React from 'react';
-import axios from 'axios';
 import qs from 'qs';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom'
@@ -12,6 +11,8 @@ import { Skeleton } from "../components/PizzaBlock/Skeleton";
 import { Sort } from '../components/Sort';
 import { Pagination } from '../components/Pagination/Pagination';
 import { SearchContext } from '../App';
+import { fetchPizzas } from '../redux/slices/pizzaSlice';
+import { CartEmpty } from '../components/CartEmpty/CartEmpty';
 
 export const list = ['rating', 'price', 'title'];
 export const Home = () => {
@@ -19,39 +20,30 @@ export const Home = () => {
   const navigate = useNavigate();
   const isSearch = React.useRef(false);
   const isMounted = React.useRef(false);
+  const { items, status } = useSelector((state) => state.pizza);
   const { activeCategory, selected, currentPage } = useSelector((state) => state.filter);
 
   const selectedList = list[selected];
 
   const { searchValue } = React.useContext(SearchContext);
-  const [pizzas, setPizzas] = React.useState([]);
-  const [isLoading, setIsLoading] = React.useState(true);
 
   const onChangeCategory = (index) => {
     dispatch(setActiveCategory(index))
   }
 
-  const fetchPizzas = async () => {
-    setIsLoading(true);
+  const getPizzas = async () => {
+    // setIsLoading(true);
     const category = activeCategory > 0 ? `category=${activeCategory}` : '';
     const search = searchValue ? `search=${searchValue}` : '';
 
-    try {
-      const res = await axios.get(
-        `https://65367de8bb226bb85dd23593.mockapi.io/pizzas?page=${currentPage}&limit=4&${category}&sortBy=${selectedList}&${search}`
-      )
-      setPizzas(res.data);
-    } catch (error) {
 
-    } finally {
-      setIsLoading(false);
-    }
+    dispatch(fetchPizzas({ category, search, selectedList, currentPage }))
+
   }
 
   React.useEffect(() => {
     if (window.location.search) {
       const params = qs.parse(window.location.search.substring(1));
-      // console.log(params);
       dispatch(
         setFilters({
           ...params,
@@ -64,7 +56,7 @@ export const Home = () => {
   React.useEffect(() => {
     window.scrollTo(0, 0);
     if (!isSearch.current) {
-      fetchPizzas();
+      getPizzas();
     }
     isSearch.current = false;
   }, [activeCategory, currentPage, searchValue, selectedList])
@@ -88,17 +80,21 @@ export const Home = () => {
         <Sort />
       </div>
       <h2 className="content__title">All pizzas</h2>
-      <div className="content__items">
-        {
-          isLoading
-            ? [new Array(4)].map((_, index) => <Skeleton key={index} />)
-            : pizzas.map((element) => (
-              <PizzaBlock
-                key={element.id}
-                {...element} />)
-            )
-        }
-      </div>
+      {
+        status === 'error' ?
+          <CartEmpty /> :
+          (<div className="content__items">
+            {
+              status === 'loading' ?
+                [new Array(4)].map((_, index) => <Skeleton key={index} />) :
+                items.map((element) => (
+                  <PizzaBlock
+                    key={element.id}
+                    {...element} />)
+                )
+            }
+          </div>)
+      }
       <Pagination />
     </div>
   )

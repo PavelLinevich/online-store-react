@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { CartItem } from '../components/Search/CartItem'
 import { clearItems } from '../redux/slices/cartSlice'
+import { CartEmpty } from '../components/CartEmpty/CartEmpty'
 
 
 export const Cart = () => {
@@ -13,6 +14,10 @@ export const Cart = () => {
     if (window.confirm('Clear cart?')) {
       dispatch(clearItems())
     }
+  }
+
+  if (!totalCount) {
+    return <CartEmpty />
   }
 
   return (

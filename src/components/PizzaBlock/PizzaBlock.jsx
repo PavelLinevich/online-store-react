@@ -17,7 +17,7 @@ export function PizzaBlock({ id, imageUrl, title, types, sizes, price, category,
       price,
       imageUrl,
       type: typeName[activePizzaType],
-      size: activePizzaSize,
+      size: sizes[activePizzaSize],
     }
     dispatch(addItem(item))
   }

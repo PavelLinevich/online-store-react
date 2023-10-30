@@ -31,15 +31,21 @@ export const Home = () => {
     dispatch(setActiveCategory(index))
   }
 
-  const fetchPizzas = () => {
+  const fetchPizzas = async () => {
     setIsLoading(true);
     const category = activeCategory > 0 ? `category=${activeCategory}` : '';
     const search = searchValue ? `search=${searchValue}` : '';
-    axios.get(`https://65367de8bb226bb85dd23593.mockapi.io/pizzas?page=${currentPage}&limit=4&${category}&sortBy=${selectedList}&${search}`)
-      .then((response) => {
-        setPizzas(response.data);
-        setIsLoading(false);
-      });
+
+    try {
+      const res = await axios.get(
+        `https://65367de8bb226bb85dd23593.mockapi.io/pizzas?page=${currentPage}&limit=4&${category}&sortBy=${selectedList}&${search}`
+      )
+      setPizzas(res.data);
+    } catch (error) {
+
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   React.useEffect(() => {

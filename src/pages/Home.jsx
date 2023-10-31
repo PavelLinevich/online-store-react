@@ -1,7 +1,7 @@
 import React from 'react';
 import qs from 'qs';
 import { useSelector, useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 import { selectFilter, setActiveCategory, setFilters } from '../redux/slices/filterSlice'
 
@@ -29,7 +29,6 @@ export const Home = () => {
   }
 
   const getPizzas = async () => {
-    // setIsLoading(true);
     const category = activeCategory > 0 ? `category=${activeCategory}` : '';
     const search = searchValue ? `search=${searchValue}` : '';
 
@@ -85,14 +84,15 @@ export const Home = () => {
               status === 'loading' ?
                 [new Array(4)].map((_, index) => <Skeleton key={index} />) :
                 items.map((element) => (
-                  <PizzaBlock
-                    key={element.id}
-                    {...element} />)
+                  <Link to={`/pizza/${element.id}`} key={element.id}>
+                    <PizzaBlock {...element} />
+                  </Link>
+                )
                 )
             }
           </div>)
       }
       <Pagination />
-    </div>
+    </div >
   )
 }

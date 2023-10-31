@@ -1,12 +1,12 @@
 import React from "react";
 import { useSelector, useDispatch } from 'react-redux';
-import { setSelected } from '../redux/slices/filterSlice';
+import { selectSort, setSelected } from '../redux/slices/filterSlice';
 import { list } from '../pages/Home';
 
 
 export function Sort() {
   const dispatch = useDispatch();
-  const selected = useSelector((state) => state.filter.selected);
+  const selected = useSelector(selectSort);
   const [open, setOpen] = React.useState(false);
 
   const onClickSelect = (index) => {

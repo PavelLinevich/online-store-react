@@ -1,6 +1,11 @@
-import React from "react"
+import React from "react";
 
-export function Categories({ activeCategory, setActiveCategory }) {
+type CategoriesProps = {
+  activeCategory: number;
+  setActiveCategory: any;
+}
+
+export const Categories: React.FC<CategoriesProps> = ({ activeCategory, setActiveCategory }) => {
   const categories = ['All', 'Meat', 'Vegetarian', 'Grill', 'Spicy', 'Close']
 
   return (

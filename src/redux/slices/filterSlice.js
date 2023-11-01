@@ -8,7 +8,7 @@ const initialState = {
   selectedList: '',
 }
 
-export const filterSlice = createSlice({
+const filterSlice = createSlice({
   name: 'filter',
   initialState,
   reducers: {
@@ -33,6 +33,8 @@ export const filterSlice = createSlice({
 })
 
 export const selectFilter = (state) => state.filter;
+
+export const selectCurrentPage = (state) => state.filter.currentPage;
 
 export const selectSort = (state) => state.filter.selected;
 

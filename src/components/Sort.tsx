@@ -6,10 +6,10 @@ import { list } from '../pages/Home';
 
 export function Sort() {
   const dispatch = useDispatch();
-  const selected = useSelector(selectSort);
+  const selected: number = useSelector(selectSort);
   const [open, setOpen] = React.useState(false);
 
-  const onClickSelect = (index) => {
+  const onClickSelect = (index: number) => {
     dispatch(setSelected(index));
     setOpen(false);
   }

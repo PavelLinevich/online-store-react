@@ -1,8 +1,17 @@
-import React from "react"
-import { useSelector, useDispatch } from 'react-redux'
-import { addItem, selectCartItemById } from "../../redux/slices/cartSlice"
+import React from "react";
+import { useSelector, useDispatch } from 'react-redux';
+import { addItem, selectCartItemById } from "../../redux/slices/cartSlice";
 
-export function PizzaBlock({ id, imageUrl, title, types, sizes, price, category, rating }) {
+type PizzaBlockProps = {
+  id: string;
+  imageUrl: string;
+  title: string;
+  types: number[];
+  sizes: number[];
+  price: number;
+}
+
+export const PizzaBlock: React.FC<PizzaBlockProps> = ({ id, imageUrl, title, types, sizes, price/*, category, rating */ }) => {
   const dispatch = useDispatch();
   const typeName = ['thin', 'traditional'];
   const cartItem = useSelector(selectCartItemById(id))

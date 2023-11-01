@@ -18,7 +18,7 @@ const initialState = {
   // const [isLoading, setIsLoading] = React.useState(true);
 }
 
-export const pizzaSlice = createSlice({
+const pizzaSlice = createSlice({
   name: 'pizza',
   initialState,
   reducers: {

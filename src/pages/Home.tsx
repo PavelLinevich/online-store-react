@@ -1,9 +1,9 @@
 import React from 'react';
 import qs from 'qs';
 import { useSelector, useDispatch } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom';
 
-import { selectFilter, setActiveCategory, setFilters } from '../redux/slices/filterSlice'
+import { selectFilter, setActiveCategory, setFilters } from '../redux/slices/filterSlice';
 
 import { Categories } from '../components/Categories';
 import { PizzaBlock } from '../components/PizzaBlock/PizzaBlock';
@@ -14,7 +14,7 @@ import { fetchPizzas, selectPizzaData } from '../redux/slices/pizzaSlice';
 import { CartEmpty } from '../components/CartEmpty/CartEmpty';
 
 export const list = ['rating', 'price', 'title'];
-export const Home = () => {
+export const Home: React.FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const isSearch = React.useRef(false);
@@ -24,7 +24,7 @@ export const Home = () => {
 
   const selectedList = list[selected];
 
-  const onChangeCategory = (index) => {
+  const onChangeCategory = (index: number) => {
     dispatch(setActiveCategory(index))
   }
 
@@ -33,8 +33,14 @@ export const Home = () => {
     const search = searchValue ? `search=${searchValue}` : '';
 
 
-    dispatch(fetchPizzas({ category, search, selectedList, currentPage }))
-
+    dispatch(
+      // @ts-ignore
+      fetchPizzas({
+        category,
+        search,
+        selectedList,
+        currentPage
+      }))
   }
 
   React.useEffect(() => {
@@ -72,7 +78,7 @@ export const Home = () => {
   return (
     <div className="container">
       <div className="content__top">
-        <Categories activeCategory={activeCategory} setActiveCategory={(index) => onChangeCategory(index)} />
+        <Categories activeCategory={activeCategory} setActiveCategory={(index: number) => onChangeCategory(index)} />
         <Sort />
       </div>
       <h2 className="content__title">All pizzas</h2>
@@ -83,7 +89,7 @@ export const Home = () => {
             {
               status === 'loading' ?
                 [new Array(4)].map((_, index) => <Skeleton key={index} />) :
-                items.map((element) => (
+                items.map((element: any) => (
                   <Link to={`/pizza/${element.id}`} key={element.id}>
                     <PizzaBlock {...element} />
                   </Link>

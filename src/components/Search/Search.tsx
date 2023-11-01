@@ -5,10 +5,10 @@ import { setSearchValue } from '../../redux/slices/filterSlice'
 
 import styles from './Search.module.scss';
 
-export const Search = () => {
+export const Search: React.FC = () => {
   const dispatch = useDispatch();
-  
-  const searchValue = useSelector((state) => state.filter.searchValue);
+
+  const searchValue = useSelector((state: any) => state.filter.searchValue);
 
   return (
     <input

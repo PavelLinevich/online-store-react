@@ -13,7 +13,7 @@ export const Search: React.FC = () => {
   return (
     <input
       value={searchValue}
-      onChange={(event) => dispatch(setSearchValue(event.target.value))}
+      onChange={(event: React.ChangeEvent<HTMLInputElement>) => dispatch(setSearchValue(event.target.value))}
       className={styles.input}
       placeholder='Pizza search ...' />
   )

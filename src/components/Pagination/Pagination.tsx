@@ -4,9 +4,9 @@ import ReactPaginate from 'react-paginate';
 import styles from './Pagination.module.scss';
 import { selectCurrentPage, setCurrentPage } from '../../redux/slices/filterSlice';
 
-export type PaginationProps = {
-  currentPage?: number;
-  onCurrentPage?: any;
+type PaginationProps = {
+  currentPage: number;
+  onCurrentPage?: (page: string) => void;
 }
 
 export const Pagination: React.FC<PaginationProps> = () => {

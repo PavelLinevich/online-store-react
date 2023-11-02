@@ -98,7 +98,7 @@ export const Home: React.FC = () => {
             }
           </div>)
       }
-      <Pagination />
+      <Pagination currentPage={currentPage}/>
     </div >
   )
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 import qs from 'qs';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { selectFilter, setActiveCategory, setFilters } from '../redux/slices/filterSlice';
@@ -12,10 +12,11 @@ import { Sort } from '../components/Sort';
 import { Pagination } from '../components/Pagination/Pagination';
 import { fetchPizzas, selectPizzaData } from '../redux/slices/pizzaSlice';
 import { CartEmpty } from '../components/CartEmpty/CartEmpty';
+import { useAppDispatch } from '../redux/store';
 
 export const list = ['rating', 'price', 'title'];
 export const Home: React.FC = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const isSearch = React.useRef(false);
   const isMounted = React.useRef(false);
@@ -32,20 +33,18 @@ export const Home: React.FC = () => {
     const category = activeCategory > 0 ? `category=${activeCategory}` : '';
     const search = searchValue ? `search=${searchValue}` : '';
 
-
     dispatch(
-      // @ts-ignore
       fetchPizzas({
         category,
         search,
         selectedList,
-        currentPage
+        currentPage: String(currentPage),
       }))
   }
 
   React.useEffect(() => {
     if (window.location.search) {
-      const params = qs.parse(window.location.search.substring(1));
+      const params: any = qs.parse(window.location.search.substring(1));
       dispatch(
         setFilters({
           ...params,
@@ -98,7 +97,7 @@ export const Home: React.FC = () => {
             }
           </div>)
       }
-      <Pagination currentPage={currentPage}/>
+      <Pagination currentPage={currentPage} />
     </div >
   )
 }

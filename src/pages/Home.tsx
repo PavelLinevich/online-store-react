@@ -1,7 +1,7 @@
 import React from 'react';
 import qs from 'qs';
 import { useSelector } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { selectFilter, setActiveCategory, setFilters } from '../redux/slices/filterSlice';
 
@@ -89,9 +89,7 @@ export const Home: React.FC = () => {
               status === 'loading' ?
                 [new Array(4)].map((_, index) => <Skeleton key={index} />) :
                 items.map((element: any) => (
-                  <Link to={`/pizza/${element.id}`} key={element.id}>
                     <PizzaBlock {...element} />
-                  </Link>
                 )
                 )
             }

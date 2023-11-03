@@ -37,7 +37,6 @@ export const Cart: React.FC = () => {
               <path d="M8.33337 9.16667V14.1667" stroke="#B6B6B6" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" />
               <path d="M11.6666 9.16667V14.1667" stroke="#B6B6B6" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
-
             <span onClick={onClickClear}>Clear cart</span>
           </div>
         </div>
